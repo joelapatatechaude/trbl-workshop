@@ -1,13 +1,13 @@
 ---
-title: Signing container images with Sigstore
+title: Pod issues
 exercise: 1
 date: '2023-09-18'
-tags: ['sigstore','cosign','rekor','openshift','acs','containers']
+tags: ['']
 draft: false
 authors: ['default']
-summary: "In this first exercise we'll sign a container image using Sigstore."
+summary: "Hello In this first exercise we'll sign a container image using Sigstore."
 ---
-In this first exercise we'll sign a container image using Sigstore. Specifically in this example, we're going to use "keyless" signing, one of the workflows supported by Sigstore.
+Hello In this first exercise we'll sign a container image using Sigstore. Specifically in this example, we're going to use "keyless" signing, one of the workflows supported by Sigstore.
 
 Sigstore keyless signing associates identities, rather than keys, with an artifact signature. The Sigstore 'Fulcio' service issues short-lived certificates binding an ephemeral key to an OpenID Connect identity. Signing events are logged in Rekor, a signature transparency log, providing an auditable record of when a signature was created.
 
