@@ -1,0 +1,31 @@
+FROM registry.access.redhat.com/ubi9/ubi:latest
+
+# install utilities
+RUN yum install -y podman git jq vim nano
+
+# install cosign
+ENV COSIGN_VERSION=2.1.1
+RUN curl -O -L "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-${COSIGN_VERSION}.x86_64.rpm" && \
+    yum install -y cosign-${COSIGN_VERSION}.x86_64.rpm && \
+    rm cosign-${COSIGN_VERSION}.x86_64.rpm
+
+# install rekor-cli
+RUN curl -O -L "https://github.com/sigstore/rekor/releases/latest/download/rekor-cli-linux-amd64" && \
+    mv rekor-cli-linux-amd64 /usr/local/bin/rekor-cli && \
+    chmod 755 /usr/local/bin/rekor-cli
+
+# install crane
+RUN curl -O -L "https://github.com/google/go-containerregistry/releases/latest/download/go-containerregistry_Linux_x86_64.tar.gz" && \
+    tar -xsf go-containerregistry_Linux_x86_64.tar.gz -C /usr/local/bin/ crane && \
+    rm go-containerregistry_Linux_x86_64.tar.gz
+
+# install OpenShift client
+RUN curl -O -L "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz" && \
+    tar -xsf openshift-client-linux.tar.gz -C /usr/local/bin/ oc && \
+    rm openshift-client-linux.tar.gz
+
+# Clone example pipeline and set-up dirs
+RUN git clone https://github.com/shaneboulden/tssc-example-pipeline.git pipeline \
+    && mkdir -p ~/.config/containers 
+
+CMD ["/bin/bash","-c","sleep 1000000"]
