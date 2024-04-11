@@ -5,6 +5,7 @@
       "redhat.fabric8-analytics",
       "redhat.vscode-openshift-connector",
       "cnshenj.vscode-task-manager",
-      "vscode.markdown"
+      "vscode.markdown",
+      "tekumara.typos-vscode"
     ]
 }
