@@ -1,0 +1,232 @@
+---
+title: Integrating container signing into CI/CD pipelines
+exercise: 2
+date: '2023-09-19'
+tags: ['sigstore','cosign','tekton','openshift','acs','chains']
+draft: false
+authors: ['default']
+summary: "In the second exercise we'll sign a container image with Tekton Chains."
+---
+In the last exercise we signed a container image using Sigstore keyless signing services. This provides a simple way of signing container image, but it can be clunky for developers to step through each time they need to sign a new software release.
+
+[Tekton Chains](https://tekton.dev/docs/chains/) allows you to build Sigstore signing into Tekton pipelines, and is built-in to Red Hat OpenShift Pipelines. Chains works by observing all TaskRuns executions in your cluster. When TaskRuns complete, Chains takes a snapshot of them. Chains then converts this snapshot to one or more standard payload formats, signs them and stores them somewhere.
+
+Some of the current features of Tekton Chains include:
+- Signing Tekton TaskRun results with user provided cryptographic keys, including TaskRuns themselves and OCI Images
+- Attestation formats like [intoto](https://github.com/tektoncd/chains/tree/main/docs/intoto.md)
+- Signing with a variety of cryptographic key types and services (x509, KMS)
+- Support for multiple storage backends for signatures
+
+In this lab we'll sign a container image with Tekton Chains and Red Hat OpenShift Pipelines, push this to a container registry, and then validate the attestations created about the container image and verify the container signatures.
+
+## Lab environment
+Navigate to your project and find the `tssc-terminal` container. Create a terminal session within OpenShift:
+
+<Zoom>
+![terminal](/static/images/terminal.png)
+</Zoom>
+
+Login to the registry using your lab credentials:
+```bash
+podman login -u tssc -p $(oc whoami -t) registry.blueradish.net
+```
+Set the project for your username:
+```bash
+oc project $(oc whoami | cut -d : -f 3)
+```
+Copy the example image into your own container registry account:
+```bash
+OC_PROJECT=$(oc project -q)
+
+podman pull \
+  quay.io/smileyfritz/chat-client:latest
+
+podman tag \
+  quay.io/smileyfritz/chat-client:latest \
+  registry.blueradish.net/$OC_PROJECT/chat-client:latest
+
+podman push \
+  registry.blueradish.net/$OC_PROJECT/chat-client:latest
+```
+
+Create a new application from the new image:
+```bash
+OC_PROJECT=$(oc project -q)
+
+oc new-app \
+  registry.blueradish.net/$OC_PROJECT/chat-client:latest
+```
+## Create the pipeline secrets
+Create a secret for the registry configuration:
+```bash
+oc create secret generic regcred \
+  --from-file=.dockerconfigjson=~/.config/containers/auth.json \
+  --type=kubernetes.io/dockerconfigjson
+```
+Navigate to the RHACS URL (from Etherpad) and login using your OpenShift user credentials.
+
+<Zoom>
+![acs_login1](/static/images/exercise2/acs_login1.png)
+</Zoom>
+
+<Zoom>
+![acs_login2](/static/images/exercise2/acs_login2.png)
+</Zoom>
+
+<Zoom>
+![acs_login3](/static/images/exercise2/acs_login3.png)
+</Zoom>
+
+When prompted, select `Allow selected permissions` and you will be shown the Red Hat Advanced Cluster Security for Kubernetes (RHACS) dashboard.
+
+<Zoom>
+![acs_login4](/static/images/exercise2/acs_login4.png)
+</Zoom>
+
+<Zoom>
+![acs_login5](/static/images/exercise2/acs_login5.png)
+</Zoom>
+
+Select `Platform configuration -> Integrations` from the left-hand menu. Scroll to the bottom of the page and find `StackRox API tokens`.
+
+<Zoom>
+![api1](/static/images/exercise2/api1.png)
+</Zoom>
+
+Create a token for your username. For the role, select `Continuous Integration`.
+
+<Zoom>
+![api2](/static/images/exercise2/api2.png)
+</Zoom>
+
+Once complete select `Generate`.
+
+Copy the API token and create a new secret:
+```bash
+oc create secret generic acstoken \
+  --from-literal=token=<your-token-here>
+```
+
+## Create the pipeline
+Change into the `pipeline` directory and inspect the resources:
+```bash
+cd /pipeline
+ls -l
+```
+There's a few changes that you need to make to this pipeline configuration. Firstly, open the `pipeline-run-with-scan.yaml` file with one of the available text editors (`vim` or `nano`):
+```bash
+vim pipeline-run-with-scan.yaml 
+```
+Update the following parameters:
+
+* `image-name`: Update this to reflect the internal registry and your current namespace. e.g. `registry.blueradish.net/userX/chat-client:latest`
+* `acs-scan-api`: Update this to the route for ACS, e.g. central-acs-central.apps.vlme6l1rt1709976be.australiasoutheast.aroapp.io
+
+Once you've made these changes, create all the resources in the `pipeline/deploy` directory:
+```bash
+cd pipeline
+oc create -f /pipeline/deploy/
+```
+
+## Run the pipeline
+Let's set a few permissions and run the pipeline:
+```bash
+OC_PROJECT=$(oc project -q) 
+
+oc adm policy add-role-to-user isview \
+  -z pipeline-svc \
+  --role-namespace=$OC_PROJECT \
+  -n $OC_PROJECT
+
+oc adm policy add-scc-to-user privileged \
+  -z pipeline-svc
+```
+Now start the pipeline:
+```bash
+oc create -f pipeline-run-with-scan.yaml
+```
+You should now be able to navigate to `Pipeline` in the OpenShift UI and see the pipeline running:
+
+<Zoom>
+![pipeline1](/static/images/exercise2/pipeline1.png)
+</Zoom>
+
+## Verify the container signatures and tlog entry
+
+Once the pipeline completes Tekton Chains will automatically ensure that the image signing is performed. Chains observes all PipelineRuns in the cluster. When it observes a PipelineRun complete that emits image and digest results, it automatically signs those artifacts and generates attestations from the pipeline, and creates a Rekor entry for the container image build.
+
+Now that our container image has been signed by Tekton Chains, let's verify the signatures and artifacts created. Navigate back to the terminal window and check that you can verify the container image with `cosign`.
+
+Firstly, login to the internal registry:
+```bash
+podman login -u tssc -p $(oc whoami -t) registry.blueradish.net
+```
+Now verify the container signature:
+```bash
+OC_PROJECT=$(oc project -q)
+
+cosign verify \
+  --key k8s://openshift-pipelines/signing-secrets \
+  registry.blueradish.net/$OC_PROJECT/chat-client:latest
+```
+If everything ran successfully, you should see that the cosign claims are valid:
+```
+Verification for quay.io/smileyfritz/chat-client:latest --
+The following checks were performed on each of these signatures:
+  - The cosign claims were validated
+  - The claims were present in the transparency log
+  - The signatures were integrated into the transparency log when the certificate was valid
+  - The signatures were verified against the specified public key
+
+[{"critical":{"identity":{"docker-reference":"registry.blueradish.net/user1/chat-client"},"image":{"docker-manifest-digest":"sha256:0be008b5cdaafa8b0b600f89f7524e2126c18e92f7c5b6a73aadccd2af413581"},"type":"cosign container image signature"},"optional":null}]
+```
+You can also verify that an attestation has also been created and signed. Firstly, we need the digest of the container image that was just created:
+```bash
+OC_PROJECT=$(oc project -q)
+
+crane digest registry.blueradish.net/$OC_PROJECT/chat-client:latest
+```
+Now you can perform a search using `rekor-cli` for this digest:
+```bash
+OC_PROJECT=$(oc project -q)
+
+# Generate the SHA digest of the 'latest' version of the container image
+IMAGE_SHA=$(crane digest registry.blueradish.net/$OC_PROJECT/chat-client:latest)
+
+# Search Rekor for UUID using the SHA digest and set it as an environment variable
+export UUID=$(rekor-cli search --sha=$IMAGE_SHA)
+```
+Check that you got a record from the `rekor` transparency log:
+```bash
+echo $UUID
+```
+Finally, grab the attestation that was created by Tekton Chains and take a look at the output:
+```bash
+rekor-cli get --uuid $UUID --format json | jq -r .Attestation | jq
+```
+You'll be able to see the attestation that Tekton Chains created during the build step of the pipeline:
+```json
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "predicateType": "https://slsa.dev/provenance/v0.2",
+  "subject": [
+    {
+      "name": "registry.blueradish.net/user1/chat-client",
+      "digest": {
+        "sha256": "a1a783df5746d9eaa75decb3feb75c4fec8d4b26ccac590642c1daee3ac78fcc"
+      }
+    }
+  ],
+  "predicate": {
+    "builder": {
+      "id": "https://tekton.dev/chains/v2"
+    },
+    "buildType": "tekton.dev/v1beta1/TaskRun",
+    ...
+  }
+}
+```
+## Stretch goal
+Can you combine the image `build` and `scan` into a single step?
+- Take a look at the attestation created by Tekton Chains - what extra information is included?
+- What happens if the container image scan fails. Is the image still signed?
