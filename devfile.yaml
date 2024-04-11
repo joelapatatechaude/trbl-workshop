@@ -24,7 +24,7 @@ components:
 commands:
   - id: 1-install
     exec:
-      label: "Install probably useless"
+      label: "Install"
       component: nodejs
       workingDir: ${PROJECTS_ROOT}/trbl-workshop
       commandLine: "npm install"
