@@ -1,0 +1,40 @@
+schemaVersion: 2.1.0
+metadata:
+  name: workshop
+components:
+  - name: nodejs
+    container:
+      image: registry.redhat.io/devspaces/udi-rhel8:latest
+      endpoints:
+        - exposure: public
+          name: nodejs
+          targetPort: 3000
+          protocol: https
+      memoryLimit: '2Gi'
+      memoryRequest: '1Gi'
+      cpuLimit: '2'
+      cpuRequest: '1'
+      mountSources: true
+      volumeMounts:
+        - name: npm
+          path: /home/user/.npm
+  - name: npm
+    volume:
+      size: 1G
+commands:
+  - id: 1-install
+    exec:
+      label: "Install probably useless"
+      component: nodejs
+      workingDir: ${PROJECTS_ROOT}/trbl-workshop
+      commandLine: "npm install"
+      group:
+        kind: run
+  - id: 2-run
+    exec:
+      label: "Run"
+      component: nodejs
+      workingDir: ${PROJECTS_ROOT}/trbl-workshop
+      commandLine: "npm run-script start"
+      group:
+        kind: run
