@@ -5,6 +5,6 @@
       "redhat.fabric8-analytics",
       "redhat.vscode-openshift-connector",
       "cnshenj.vscode-task-manager",
-      "dbaeumer.vscode-eslint"
+      "vscode.markdown"
     ]
 }
