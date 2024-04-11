@@ -1,6 +1,6 @@
 name: Red Hat
 avatar: /static/images/redhat.png
-occupation: TSSC Workshop
+occupation: TRBL Workshop
 company: Open Source
 email: redhat@redhat.com
 twitter: https://twitter.com/RedHat
