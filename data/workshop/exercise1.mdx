@@ -1,30 +1,36 @@
 ---
-title: Pod issues
+title: Pod issue
 exercise: 1
 date: '2023-09-18'
 tags: ['sigstore','cosign','rekor','openshift','acs','containers']
 draft: false
 authors: ['default']
-summary: "In this first exercise we'll sign a container image using Sigstore."
+summary: "Why is my deployment not starting?"
 ---
-In this first exercise we'll sign a container image using Sigstore. Specifically in this example, we're going to use "keyless" signing, one of the workflows supported by Sigstore.
-
-Sigstore keyless signing associates identities, rather than keys, with an artifact signature. The Sigstore 'Fulcio' service issues short-lived certificates binding an ephemeral key to an OpenID Connect identity. Signing events are logged in Rekor, a signature transparency log, providing an auditable record of when a signature was created.
-
-Sigstore’s root of trust, which includes Fulcio’s root CA certificate and Rekor’s public key, are distributed by The Update Framework (TUF). TUF is a framework to provide secure software and file updates. TUF defines a set of protocols to protect against various types of attacks.
-
-This "keyless" signing workflow provides a number of benefits:
-- There is no need for users to store and protect private keys used during signing. The Fulcio service destroys the private key  shortly after and the short-lived identity certificate expires. Users who wish to verify the software will use the transparency log entry, rather than relying on the signer to store and manage the private key.
-- The signature transparency log provides a complete audit trail of signature actions.
+Your favorite OpenShift admin just went on mat leave, and you are now in charge of your team OpenShift cluster. You have some user that complain their deployment is not starting. you need to fix that asap.
 
 Let's get started!
 
-## Lab environment
-Navigate to your project and find the `tssc-terminal` container. Create a terminal session within OpenShift:
+## Check the topology view
+Navigate to your project (exercise01-userXX), make sure you are in the developer perspective, and pick the "Topology view" from the left pannel. The deployment is in light blue, so something is not right, we want this nice dark blue deployment color
 
 <Zoom>
-![terminal](/static/images/terminal.png)
+![topology](/static/images/exercise1/problem.png)
 </Zoom>
+
+You may try and identify the issue. Poke around, click, explore. If no luck after a few minutes, then check the hints below as needed.
+
+
+
+Hint1:
+You can get a quick overview of the deployment situation by clicking on the deployment icon.
+<Zoom>
+![hint1](/static/images/exercise1/hint1.png)
+</Zoom>
+
+
+
+
 
 Login to the registry using your lab credentials:
 ```bash
