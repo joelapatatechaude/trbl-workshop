@@ -32,9 +32,17 @@ commands:
         kind: run
   - id: 2-run
     exec:
-      label: "Run"
+      label: "Run with auto-refresh"
       component: nodejs
       workingDir: ${PROJECTS_ROOT}/trbl-workshop
       commandLine: "npm run-script start"
+      group:
+        kind: run
+  - id: 3-dev
+    exec:
+      label: "Run without auto-refresh"
+      component: nodejs
+      workingDir: ${PROJECTS_ROOT}/trbl-workshop
+      commandLine: "npm run-script dev"
       group:
         kind: run
