@@ -37,16 +37,25 @@ You can check the deployment events. In this case, nothing usefull.
 
 
 ### Hint3
-You can check the deployment events. In this case, nothing usefull.
+Let's check some pod information, for example, the pod logs.
 <Zoom>
 ![hint3](/static/images/exercise1/hint3.png)
 </Zoom>
+Well, nothing particularly usefull today, and that's because the pod is not even starting, so there is
+no process running inside the pod, no logs being output.
 
 ### Hint4
-We have been looking at deployment informations
+Still in the Pods section, let's have a look at the Event
 <Zoom>
 ![hint4](/static/images/exercise1/hint4.png)
 </Zoom>
+Ok, something usefull now. The container image is not being pulled.
+The error message indicate it's an authentication issue. I can guarantee you everyghin is fine
+authentication wise, yet the message makes sense once you find the root cause.
+Check very carefully the message, maybe there is a typo somewhere that may explain everything
+
+## Solution
+
 
 
 Login to the registry using your lab credentials:
