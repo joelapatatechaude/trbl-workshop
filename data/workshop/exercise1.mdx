@@ -12,7 +12,10 @@ You have some user that complain they can't play pacman anymore during their lun
 
 Let's get started!
 
-# Check the topology view
+<TOCInline toc={props.toc} asDisclosure />
+
+
+## What's going on?
 Navigate to your project (exercise01-userXX), make sure you are in the developer perspective, and pick the "Topology view" from the left pannel. The deployment is in light blue, so something is not right, we want this nice dark blue deployment color
 
 <Zoom>
@@ -22,22 +25,22 @@ Navigate to your project (exercise01-userXX), make sure you are in the developer
 You may try and identify the issue. Poke around, click, explore. If no luck after a few minutes, then check the hints below as needed.
 
 
-# Hints
-## Hint1
+## Hints
+### Hint 1
 You can get a quick overview of the deployment situation by clicking on the deployment icon.
 You can probably see some early indications of the problem.
 <Zoom>
 ![hint1](/static/images/exercise1/hint1.png)
 </Zoom>
 
-## Hint2
+### Hint 2
 You can check the deployment events.
 <Zoom>
 ![hint2](/static/images/exercise1/hint2.png)
 </Zoom>
 In this case, nothing usefull (sorry). It's actually a pod issue
 
-## Hint3
+### Hint 3
 Let's check some pod information, for example, the pod logs.
 <Zoom>
 ![hint3](/static/images/exercise1/hint3.png)
@@ -45,7 +48,7 @@ Let's check some pod information, for example, the pod logs.
 Well, nothing particularly usefull today, and that's because the pod is not even starting, so there is
 no process running inside the pod, no logs being output.
 
-## Hint4
+### Hint 4
 Still in the Pods section, let's have a look at the Event.
 <Zoom>
 ![hint4](/static/images/exercise1/hint4.png)
@@ -55,7 +58,7 @@ The error message indicate it's an authentication issue. I can guarantee you eve
 authentication wise, yet the message makes sense once you find the root cause.
 Check very carefully the message, maybe there is a typo somewhere that may explain everything?
 
-# Solution
+## Solution
 Ok, the issue is that there is a typo in the container image. OpenShift tries to pull an image that does not exist publicly.
 It assumes the image must be private, and therefore trough an image around authentication. In reallity, the image does not
 exists because of the typo. Let's fix that.
@@ -78,10 +81,31 @@ Your pod should now start correctly. Have a play at pacman, try to hit a highsco
 ![solution3](/static/images/exercise1/solution3.png)
 </Zoom>
 
-# Did you know?
+## Did you know?
 
-## Administrator perspective
+### Administrator perspective
 You can also switch to the administrator, and have access to your deployment and / or pod information under the workload menu.
 <Zoom>
 ![duk3](/static/images/exercise1/duk3.png)
 </Zoom>
+
+### Deployment definition Yaml
+Errors may be visible when inspecting the deployment definition Yaml. Have a look!
+<Zoom>
+![duk1](/static/images/exercise1/duk1.png)
+</Zoom>
+
+### Pod definition Yaml
+Similarly, errors may be visible when inspecting the pod definition Yaml. Have a look!
+<Zoom>
+![duk2](/static/images/exercise1/duk2.png)
+</Zoom>
+
+## Take away
+When a pod doesn't start messages may appear in various place worth checking
+- Deployment's Event
+- Deployment's Yaml (at the bottom)
+- Pod's Event
+- Pod's log (at the bottom)
+- Pod's Yaml
+- other places we will see in this workshop
