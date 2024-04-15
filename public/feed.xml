@@ -22,32 +22,12 @@
 
   <item>
     <guid>https://trbl.cszevaco.com/workshop/exercise2</guid>
-    <title>Integrating container signing into CI/CD pipelines</title>
+    <title>Pod issue (again)</title>
     <link>https://trbl.cszevaco.com/workshop/exercise2</link>
-    <description>In the second exercise we&#39;ll sign a container image with Tekton Chains.</description>
-    <pubDate>Tue, 19 Sep 2023 00:00:00 GMT</pubDate>
+    <description>Why this other pod is not starting?</description>
+    <pubDate>Wed, 04 Dec 2024 00:00:00 GMT</pubDate>
     <author>cschmitz@redhat.com (Red Hat)</author>
-    <category>sigstore</category><category>cosign</category><category>tekton</category><category>openshift</category><category>acs</category><category>chains</category>
-  </item>
-
-  <item>
-    <guid>https://trbl.cszevaco.com/workshop/exercise3</guid>
-    <title>Blocking unsigned container images with ACS</title>
-    <link>https://trbl.cszevaco.com/workshop/exercise3</link>
-    <description>In the third exercise we&#39;ll block unsigned containers from OpenShift</description>
-    <pubDate>Wed, 20 Sep 2023 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
-    <category>sigstore</category><category>cosign</category><category>openshift</category><category>acs</category><category>chains</category>
-  </item>
-
-  <item>
-    <guid>https://trbl.cszevaco.com/workshop/exercise4</guid>
-    <title>Detecting supply-chain compromise at runtime</title>
-    <link>https://trbl.cszevaco.com/workshop/exercise4</link>
-    <description>In this exercise we&#39;ll identify anomalous behaviours in container applications at runtime, that could be indicative of supply-chain compromise.</description>
-    <pubDate>Thu, 21 Sep 2023 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
-    <category>sigstore</category><category>cosign</category><category>openshift</category><category>acs</category><category>chains</category>
+    <category>easy</category>
   </item>
 
     </channel>

@@ -20,5 +20,15 @@
     <category>easy</category>
   </item>
 
+  <item>
+    <guid>https://trbl.cszevaco.com/workshop/exercise2</guid>
+    <title>Pod issue (again)</title>
+    <link>https://trbl.cszevaco.com/workshop/exercise2</link>
+    <description>Why this other pod is not starting?</description>
+    <pubDate>Wed, 04 Dec 2024 00:00:00 GMT</pubDate>
+    <author>cschmitz@redhat.com (Red Hat)</author>
+    <category>easy</category>
+  </item>
+
     </channel>
   </rss>
