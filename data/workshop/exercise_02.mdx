@@ -46,6 +46,7 @@ In the following hints, we are going to explore the three options (events, logs 
 ### Hint 2
 <details>
   <summary>Checking the events...</summary>
+
 From Hint1, if you click on `View events`, you should see:
 <Zoom>
 ![hint2](/static/images/exercise2/hint2.png)
@@ -56,13 +57,15 @@ You probably noticed there is not much additional information, just a confirmati
 ### Hint 3
 <details>
   <summary>Exploring container debugs...</summary>
+
 From Hint1, if you click on `Debug container chess`:
 OpenShift starts a new chess container, but overwrite the entrypoint command to give you a shell instead:
 
 <Zoom>
 ![hint3](/static/images/exercise2/hint3.png)
 </Zoom>
-
+You can try and run the npm command, this should give you some logs that indicate everything is running,
+as expected. So what's happening?
 
 </details>
 
@@ -80,12 +83,20 @@ is presented to you with more details, often better suited when doing admin task
 </Zoom>
 
 
-### something else to know
-
 
 ## Take away
 Some summary
 - point 1
 - point 2
+
+## Stretch goal
+Have a look at Hint 3, the one about the debug pod. While we started the npm app with the right
+command, one step further would be to create a service, a route, and open the route from a web
+browser, all that to check that the chess game is correctly running in this debug pod. Here is some helpful info:
+- the debug pod doesn't have any label. You will need to add one (edit the yaml file), i.e. `app: debug-chess` that will be used by the service
+- when creating a service via the web console, the default yaml will not have the correct app selector, and will not use the correct port. Make sure to use 
+`port: 3000` and `targetPort: 3000` for this node app
+- the route creation via the web console should be intuitive. 
+
 
 
