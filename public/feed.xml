@@ -17,7 +17,7 @@
     <description>Setting up your environment</description>
     <pubDate>Wed, 01 Jan 2020 00:00:00 GMT</pubDate>
     <author>cschmitz@redhat.com (Red Hat)</author>
-    <category>EASY</category>
+    
   </item>
 
   <item>
@@ -27,7 +27,7 @@
     <description>Why is my pod not starting?</description>
     <pubDate>Thu, 02 Jan 2020 00:00:00 GMT</pubDate>
     <author>cschmitz@redhat.com (Red Hat)</author>
-    <category>easy</category>
+    <category>easy</category><category>pod</category>
   </item>
 
   <item>
@@ -37,7 +37,7 @@
     <description>Why this other pod is not starting?</description>
     <pubDate>Fri, 03 Jan 2020 00:00:00 GMT</pubDate>
     <author>cschmitz@redhat.com (Red Hat)</author>
-    <category>easy</category>
+    <category>easy</category><category>pod</category>
   </item>
 
     </channel>
