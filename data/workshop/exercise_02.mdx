@@ -31,17 +31,39 @@ If no luck after a few minutes, then check the hints below as needed.
 ## Hints
 ### Hint 1
 <details>
-  <summary>Reveal me</summary>
+  <summary>How do I see a deployment overview?</summary>
 
-Something
+You can get a quick overview of the deployment situation by clicking on the deployment icon.
+You can probably see some early indications of the problem.
+<Zoom>
+![hint1](/static/images/exercise2/hint1.png)
+</Zoom>
+
+In the following hints, we are going to explore the three options (events, logs and debugs).
 
 </details>
 
 ### Hint 2
 <details>
-  <summary>Reveal me</summary>
+  <summary>Checking the events...</summary>
+From Hint1, if you click on `View events`, you should see:
+<Zoom>
+![hint2](/static/images/exercise2/hint2.png)
+</Zoom>
+You probably noticed there is not much additional information, just a confirmation of the crashloop.
+</details>
 
-Something
+### Hint 3
+<details>
+  <summary>Exploring container debugs...</summary>
+From Hint1, if you click on `Debug container chess`:
+OpenShift starts a new chess container, but overwrite the entrypoint command to give you a shell instead:
+
+<Zoom>
+![hint3](/static/images/exercise2/hint3.png)
+</Zoom>
+
+
 </details>
 
 
