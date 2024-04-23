@@ -1,4 +1,4 @@
-# Trusted Software Supply-Chain Workshop
+# OpenShift troubleshooting Workshop
 
 Testing this content
 ```
