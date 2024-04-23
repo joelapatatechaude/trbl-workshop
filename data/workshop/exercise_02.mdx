@@ -10,6 +10,7 @@ summary: "Why is this pod crashing?"
 The OpenShift Social Club has decided to organize a chess tournament, and want to host the chess game on OpenShift.
 They almost manage to get the pod to run, but there is an issue. As the OpenShift expert, you have been voluntold to investigate the issue.
 
+Note that even if you manage to solve this without any hint, you will want to explore Hint 3.
 
 Let's get started!
 
@@ -64,13 +65,76 @@ OpenShift starts a new chess container, but overwrite the entrypoint command to 
 <Zoom>
 ![hint3](/static/images/exercise2/hint3.png)
 </Zoom>
-You can try and run the npm command, this should give you some logs that indicate everything is running,
-as expected. So what's happening?
+This looks like a node app, if you are a bit familiar, you probably know you can usually
+start the app with `npm run`. You can try and run the npm command, this should give you some logs that indicate everything is running,
+as expected. So why the application doesn't start in the normal (non-debug) chess pod?
+
+Make sure to close the debug pod, we don't really want them to keep running in the background once
+the investigation is done.
 
 </details>
 
+### Hint 4
+<details>
+  <summary>Exploring container logs...</summary>
+
+From Hint1, if you click on `View Logs`:
+You have direct access to the container log. What do you see?
+<Zoom>
+![hint4](/static/images/exercise2/hint4.png)
+</Zoom>
+
+The entrypoint used by a container is typically "backed" inside the container image. The next step
+would be to fix the container image itself. However, we won't do that for this exercise.
+Instead, we are going to overwrite this entrypoint in the deployment defintion, a bit like what's done automatically
+at the pod definition level, when running the container in debugger mode (see Hint 3).
+
+You will want to modify the Yaml file of the Deployment (not the Pod) to overwrite this entrypoint.
+Here is some usefull documentation, first to make sure you understand the subtle difference between
+command (CMD) and entrypoint (ENTRYPOINT) in a containerfile, and how they work together:
+- https://docs.docker.com/reference/dockerfile/#cmd
+- https://docs.docker.com/reference/dockerfile/#entrypoint
+
+But more importantly, to update the Deployment definition, you can lean on the build-in schema viewer:
+
+<Zoom>
+![hint4](/static/images/exercise2/hint4-second.png)
+</Zoom>
+
+<Zoom>
+![hint4](/static/images/exercise2/hint4-third.png)
+</Zoom>
+
+You can also get inspired by this page, ignoring the fact that the example is on a DeploymentConfig (very similar to Deployment,
+yet deprecated). https://docs.openshift.com/container-platform/4.15/applications/deployments/managing-deployment-processes.html#deployments-exe-cmd-in-container_deployment-operations
+
+
+</details>
 
 ## Solution
+
+Ok, if you looked at the hints, you probably understood that:
+- the "backed" entrypoint of that container has a typo
+- for this exercise, you should update the Deployment definition (instead of trying to fix the container image) to overwrite this entrypoint 
+
+Here is how it looks:
+<Zoom>
+![solution](/static/images/exercise2/solution1.png)
+</Zoom>
+
+Your container should now start, and you should be able to start a chess game by clicking on the route.
+One way to see your routes is via the "Administrator" perspective, in the Network section.
+The other way is via the developer perspective
+
+<Zoom>
+![solution](/static/images/exercise2/solution1.5.png)
+</Zoom>
+
+You should be able to play a few games, and maybe qualify for the next Candidates tournament.
+
+<Zoom>
+![solution](/static/images/exercise2/solution2.png)
+</Zoom>
 
 
 ## Did you know?
@@ -79,24 +143,31 @@ as expected. So what's happening?
 When you switch to the admin perspective, you won't have the nice "topology view", but the information
 is presented to you with more details, often better suited when doing admin tasks.
 <Zoom>
-![duk3](/static/images/exercise2/duk1.png)
+![duk1](/static/images/exercise2/duk1.png)
+</Zoom>
+
+While most pods have just one container, you may have pods with multiple containers, or even init-containers.
+You will be able to access the logs of each of those via a dropdown menu. Here is an example on how it looks like:
+<Zoom>
+![duk2](/static/images/exercise2/duk2.png)
 </Zoom>
 
 
 
 ## Take away
-Some summary
-- point 1
-- point 2
+When a pod crashloop, the common approach to understand what's going on are:
+- Look at the logs of the failed container(s)
+- Start the failing contaienr in debugger mode to inspect it's content, and try some commands
 
-## Stretch goal
+## Stretch goal (networking)
 Have a look at Hint 3, the one about the debug pod. While we started the npm app with the right
 command, one step further would be to create a service, a route, and open the route from a web
-browser, all that to check that the chess game is correctly running in this debug pod. Here is some helpful info:
+browser, all that to check that the chess game is correctly running in this debug pod. Here is some helpful info to achieve that:
 - the debug pod doesn't have any label. You will need to add one (edit the yaml file), i.e. `app: debug-chess` that will be used by the service
-- when creating a service via the web console, the default yaml will not have the correct app selector, and will not use the correct port. Make sure to use 
+- when creating a service via the web console, the default yaml will not have the correct app selector (use the label you created in the debug pod!) so you will need to adjust that. 
+Additionaly, you will need to adjust use the network port. Make sure to use 
 `port: 3000` and `targetPort: 3000` for this node app
-- the route creation via the web console should be intuitive. 
+- the route creation via the web console should be intuitive.
 
 
 
