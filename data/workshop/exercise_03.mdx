@@ -1,11 +1,11 @@
 ---
-title: Pod scheduling issue
+title: ReplicaSet issue
 exercise: 3
 date: '2020-01-03'
-tags: ['easy', 'pod']
+tags: ['Medium', 'pod']
 draft: false
 authors: ['default']
-summary: "Why is this pod not being scheduled"
+summary: "Why is this ReplicSet not starting my pod"
 ---
 One of your colleague has containerized the famous 2048 game/puzzle, and want's to run in on the
 OpenShift cluster, for his lunchbreak time of course. However this container won't schedule.
@@ -129,19 +129,40 @@ the 2048 app, and check it's resource usage. This should give you an idea for yo
 
 ## Solution
 
-
+You need to setup up the CPU request / limit and Memory request / limit lower than your project Quota. For example,
+the value in the screenshot below should work
 
 <Zoom>
 ![solution1](/static/images/exercise3/solution1.png)
 </Zoom>
 
+After this change, you will have a 2048 pod running, but the deployment is still in Yellow. That's because this
+deployment set the replicas count to two.
+
 <Zoom>
 ![solution2](/static/images/exercise3/solution2.png)
 </Zoom>
 
+De we really need high availability for the 2048 game? Not really, so we can decrease the replica count to 1.
+At this stage, the deployment will be dark blue.
+
 <Zoom>
 ![solution3](/static/images/exercise3/solution3.png)
 </Zoom>
+
+Now, while this is working fine, one last question for you. Considering that:
+- The Quota limit is 20MiB, which is enough for this game to run
+- The Quota request is 15MiB which is not enough for this game to run
+- We set the deployment request and limit equal to the quotas
+
+Do you think this pod is at risk of being killed if the memory of this node is exhausted?
+
+The request really set the guaranteed amount of Memory for this container. But this amount is not enough to run this game,
+as it needs about 20 MiB. While OpenShift allow this container to use up to the Limit of 20MiB if resource permit, if this
+node sundenly starve Memory, this container will hit an OOM issue, and will be killed. It may be rescheduled on another node,
+or may not be reschedulable, but that's another story.
+
+Needless to say, the next step would be to ask the Administrator to bump the Memory Request of this project to 20MiB, to be safe from issues.
 
 ## Did you know?
 
@@ -152,15 +173,26 @@ While we showed you how to access the resource quota page from the admin perspec
 ![duk1](/static/images/exercise3/duk1.png)
 </Zoom>
 
-### ??
+### Memory as seen by the pod
+
+Containers do not virtualize memory or CPU. This means that from within a container, an application will see that the total amount
+of memory available (in the container) is the total amount of memory of the node. Even if limits / requests are being used.
+You will not be able to do the following, because starting a terminal from your 2048 pod will fail, due to very tight memory constraint
+in this case. But for you, I took a screenshot comparing the memory as seen by the 2048 pod, and the node. The values are equal.
 
 <Zoom>
-![duk2](/static/images/exercise3/duk2.png)
+![duk2](/static/images/exercise3/duk2-bis.png)
 </Zoom>
 
-## Take away
-Remember:
-- this
-- olive oil
+This means that some applications that like to auto-calculate the memory it will use (i.e. a Java app auto-setting it's own heap size)
+will calculate against the total amount of memory, which may create problem. This is why in a containerized world, it is important
+to carefuly control the memory the application will use (i.e. by setting the heap size).
 
-## Stretch goal (maybe?)
+
+## Take away
+- ResourceQuotas are usually set on Project, in which case pods/containers must specify the Limit and Request for each of those CPU/Mem resource.
+- It may be usefull to Observe the resource profile of an application over time, to understand how much resource should be allocated
+- While CPU overcommitment may not result in application crash, as CPU access can be throotle, it's a different story for Memory,
+and failing to carefully manage Memory allocation may result in OOM
+- ReplicSet resources, which are managed by the Deployment resource, will provide valuable insights, when checking the ReplicatSet Events.
+
