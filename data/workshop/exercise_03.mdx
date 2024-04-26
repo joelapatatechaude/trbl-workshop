@@ -177,8 +177,9 @@ While we showed you how to access the resource quota page from the admin perspec
 
 Containers do not virtualize memory or CPU. This means that from within a container, an application will see that the total amount
 of memory available (in the container) is the total amount of memory of the node. Even if limits / requests are being used.
-You will not be able to do the following, because starting a terminal from your 2048 pod will fail, due to very tight memory constraint
-in this case. But for you, I took a screenshot comparing the memory as seen by the 2048 pod, and the node. The values are equal.
+
+You won't be able to start a terminal from your 2048 pod, due to very tight memory constraint on this project.
+But for you, I took a screenshot comparing the memory as seen by the 2048 pod, and the node. The values are equal.
 
 <Zoom>
 ![duk2](/static/images/exercise3/duk2-bis.png)
