@@ -28,15 +28,35 @@ Navigate to your project (exercise03-userXX), make sure you are in the developer
 You may try and identify the issue. Poke around, click, explore.
 If no luck after a few minutes, then check the hints below as needed.
 
+Oh, I almost forgot. This 2048 container is running fine in the project `exercise03-readonly`.
+While comparing this project with yours will not help you, you might find it usefull, at some point, to look at this project, and maybe observe a bit
+the resource consumptions of this pod. I think already said too much.
+
+Good luck!
+
 ## Hints
 ### Hint 1
 <details>
-  <summary>?</summary>
+  <summary>Check the topology view... </summary>
 
-
+Have a look at the deployment information
 <Zoom>
 ![hint1](/static/images/exercise3/hint1.png)
 </Zoom>
+From the message in yellow, it looks like:
+- there is some quota setup
+- OCP ask you to setup the CPU requests and limits for this deployment.
+
+Note that this message is a notifica
+
+Not sure what limits and requests are? Probably worth reading the first two paragraph of this documentation:
+https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+
+
+
+Since some quota have been applied to your namespace, OpenShift is requesting that you specify limits and/or requests for the associated resource.
+In this case, no CPU limits / requests were made for the 2048 deployment, and you will have to add some. You can follow the links, check the image.
+
 
 </details>
 
