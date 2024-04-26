@@ -43,61 +43,111 @@ Have a look at the deployment information
 <Zoom>
 ![hint1](/static/images/exercise3/hint1.png)
 </Zoom>
-From the message in yellow, it looks like:
-- there is some quota setup
+From the notification in yellow, it looks like:
+- there is some quota setup on this project
 - OCP ask you to setup the CPU requests and limits for this deployment.
 
-Note that this message is a notifica
+Note that this message is a notification. It will not diseapear until you click on the cross. It will remain even if it's not relevant.
+The real source of the message is visible in the Event section of the ReplicaSets. You will want to check regularly there as you try and fix things. 
 
 Not sure what limits and requests are? Probably worth reading the first two paragraph of this documentation:
 https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 
 
-
 Since some quota have been applied to your namespace, OpenShift is requesting that you specify limits and/or requests for the associated resource.
-In this case, no CPU limits / requests were made for the 2048 deployment, and you will have to add some. You can follow the links, check the image.
+In this case, no CPU limits / requests were made for the 2048 deployment, and you will have to add some. While the yellow notification gives you
+a direct link, remember that you can access the resources limit from the `Action` drop down menu, see below.
+<Zoom>
+![hint1-2](/static/images/exercise3/hint1-2.png)
+</Zoom>
+Alternatively, you could edit the Yaml file of your deployment, but the `Action -> resources limit` form is much simpler.
+You can try and set those limits directly, however, it would be a good idea to get the exact quota in place for this project. You won't be able to edit it (you don't have the right permission), but you should be able to see it. Have a go!
 
 
 </details>
 
 ### Hint 2
 <details>
-  <summary>?</summary>
+  <summary>How to check the quota on your project?</summary>
 
+You probably get the idea that some resource quota have been applied to this project. You can easily view what you can work with for your 2048 app!
+Pick tha admin perspective, head over the Administration/Resource quotas, click on your quota, and scroll down.
 <Zoom>
 ![hint2](/static/images/exercise3/hint2.png)
 </Zoom>
+
+<Zoom>
+![hint2-2](/static/images/exercise3/hint2-2.png)
+</Zoom>
+
 </details>
+
 
 ### Hint 3
 <details>
-  <summary>?</summary>
+  <summary>How to check what's blocking my ReplicaSet to start the pod?</summary>
 
+You probably already tried to adjust the requests / limits for your 2048 deployment. It may or may not work. If it does not work, one place
+to check for usefull messages is in the Events section of your ReplicatSets, for example:
 <Zoom>
 ![hint3](/static/images/exercise3/hint3.png)
 </Zoom>
 
+<Zoom>
+![hint3](/static/images/exercise3/hint3-2.png)
+</Zoom>
 
 </details>
 
 ### Hint 4
 <details>
-  <summary>?</summary>
+  <summary>What happens if my resource requests / limits are too low?</summary>
+
+If there is not enough CPU resource for your app, it might run slowly. On the other hand, if there is not enough memory for your application,
+you POD might hit some Out of Memory issue. You may encounter that. If so, head over the Events tab of your pod:
+
+<Zoom>
+![hint4](/static/images/exercise3/hint4.png)
+</Zoom>
 
 </details>
+
+### Hint 5
+<details>
+  <summary>How to check resource usage?</summary>
+
+Depending of the type of application deployed, you may or may not know the minimum amount of resources (in particular, memory) required
+to run. Sometime, you will need to "observe" the resource comsuptions. You can head over the exercise03-readonly project that is running
+the 2048 app, and check it's resource usage. This should give you an idea for your own limits/requests memory.
+
+<Zoom>
+![hint5](/static/images/exercise3/hint5.png)
+</Zoom>
+
+</details>
+
 
 ## Solution
 
 
+
 <Zoom>
-![solution](/static/images/exercise3/solution.png)
+![solution1](/static/images/exercise3/solution1.png)
 </Zoom>
 
+<Zoom>
+![solution2](/static/images/exercise3/solution2.png)
+</Zoom>
+
+<Zoom>
+![solution3](/static/images/exercise3/solution3.png)
+</Zoom>
 
 ## Did you know?
 
-### ??
+### Resource Quota from Developer Perspective
 
+While we showed you how to access the resource quota page from the admin perspective, you can also access it from the Developer perspective. 
 <Zoom>
 ![duk1](/static/images/exercise3/duk1.png)
 </Zoom>
