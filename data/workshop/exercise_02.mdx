@@ -18,7 +18,7 @@ Let's get started!
 
 
 ## What's going on?
-Navigate to your project (exercise02-userXX), make sure you are in the developer perspective, and pick the "Topology view" from the left pannel.
+Navigate to your project (exercise02-userXX), make sure you are in the developer perspective, and pick the "Topology view" from the left panel.
 The deployment is in red (sometime orange for a few seconds), so something is not right, we want this nice dark blue deployment color
 
 
@@ -86,11 +86,11 @@ You have direct access to the container log. What do you see?
 
 The entrypoint used by a container is typically "backed" inside the container image. The next step
 would be to fix the container image itself. However, we won't do that for this exercise.
-Instead, we are going to overwrite this entrypoint in the deployment defintion, a bit like what's done automatically
+Instead, we are going to overwrite this entrypoint in the deployment definition, a bit like what's done automatically
 at the pod definition level, when running the container in debugger mode (see Hint 3).
 
 You will want to modify the Yaml file of the Deployment (not the Pod) to overwrite this entrypoint.
-Here is some usefull documentation, first to make sure you understand the subtle difference between
+Here is some useful documentation, first to make sure you understand the subtle difference between
 command (CMD) and entrypoint (ENTRYPOINT) in a containerfile, and how they work together:
 - https://docs.docker.com/reference/dockerfile/#cmd
 - https://docs.docker.com/reference/dockerfile/#entrypoint
@@ -146,9 +146,9 @@ is presented to you with more details, often better suited when doing admin task
 ![duk1](/static/images/exercise2/duk1.png)
 </Zoom>
 
-This is particularly usefull when you have an admin role (your userxx does not have admin role), as this give you
-a view of your workload accross all projects. For illustration below `zeadmin` has admin role, and can list
-pods accross projects.
+This is particularly useful when you have an admin role (your userxx does not have admin role), as this give you
+a view of your workload across all projects. For illustration below `zeadmin` has admin role, and can list
+pods across projects.
 <Zoom>
 ![duk3](/static/images/exercise2/duk3.png)
 </Zoom>
@@ -165,7 +165,7 @@ You will be able to access the logs of each of those via a dropdown menu. Here i
 ## Take away
 When a pod crashloop, the common approach to understand what's going on are:
 - Look at the logs of the failed container(s)
-- Start the failing contaienr in debugger mode to inspect it's content, and try some commands
+- Start the failing container in debugger mode to inspect it's content, and try some commands
 
 ## Stretch goal (networking)
 Have a look at Hint 3, the one about the debug pod. While we started the npm app with the right
@@ -173,7 +173,7 @@ command, one step further would be to create a service, a route, and open the ro
 browser, all that to check that the chess game is correctly running in this debug pod. Here is some helpful info to achieve that:
 - the debug pod doesn't have any label. You will need to add one (edit the yaml file), i.e. `app: debug-chess` that will be used by the service
 - when creating a service via the web console, the default yaml will not have the correct app selector (use the label you created in the debug pod!) so you will need to adjust that. 
-Additionaly, you will need to adjust use the network port. Make sure to use 
+Additionally, you will need to adjust use the network port. Make sure to use 
 `port: 3000` and `targetPort: 3000` for this node app
 - the route creation via the web console should be intuitive.
 

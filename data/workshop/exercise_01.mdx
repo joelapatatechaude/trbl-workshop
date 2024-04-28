@@ -8,7 +8,7 @@ authors: ['default']
 summary: "Why is my pod not starting?"
 ---
 Your favorite OpenShift admin just went on mat leave, and you are now in charge of your team OpenShift cluster.
-You have some user that complain they can't play pacman anymore during their lunch break, as the pod is not starting.
+You have some user that complain they can't play Pacman anymore during their lunch break, as the pod is not starting.
 
 Let's get started!
 
@@ -16,7 +16,7 @@ Let's get started!
 
 
 ## What's going on?
-Navigate to your project (exercise01-userXX), make sure you are in the developer perspective, and pick the "Topology view" from the left pannel. The deployment is in light blue, so something is not right, we want this nice dark blue deployment color
+Navigate to your project (exercise01-userXX), make sure you are in the developer perspective, and pick the "Topology view" from the left panel. The deployment is in light blue, so something is not right, we want this nice dark blue deployment color
 
 <Zoom>
 ![topology](/static/images/exercise1/problem.png)
@@ -46,7 +46,7 @@ You can check the deployment events.
 <Zoom>
 ![hint2](/static/images/exercise1/hint2.png)
 </Zoom>
-In this case, nothing usefull (sorry). It's actually a pod issue
+In this case, nothing useful (sorry). It's actually a pod issue
 </details>
 
 ### Hint 3
@@ -57,7 +57,7 @@ Let's check some pod information, for example, the pod logs.
 <Zoom>
 ![hint3](/static/images/exercise1/hint3.png)
 </Zoom>
-Well, nothing particularly usefull today, and that's because the pod is not even starting, so there is
+Well, nothing particularly useful today, and that's because the pod is not even starting, so there is
 no process running inside the pod, no logs being output.
 </details>
 
@@ -69,7 +69,7 @@ Still in the Pods section, let's have a look at the Event.
 <Zoom>
 ![hint4](/static/images/exercise1/hint4.png)
 </Zoom>
-Ok, something usefull now. The container image is not being pulled.
+Ok, something useful now. The container image is not being pulled.
 The error message indicate it's an authentication issue. I can guarantee you everything is fine
 authentication wise, yet the message makes sense once you find the root cause.
 Check very carefully the message, maybe there is a typo somewhere that may explain everything?
@@ -86,7 +86,7 @@ section of your deployment and update the yaml. Give it a try, and if needed, he
 
 ## Solution
 Ok, the issue is that there is a typo in the container image. OpenShift tries to pull an image that does not exist publicly.
-It assumes the image must be private, and therefore trough an image around authentication. In reallity, the image does not
+It assumes the image must be private, and therefore trough an image around authentication. In reality, the image does not
 exists because of the typo. Let's fix that.
 
 You could fix the pod custom resource definition, however, if the deployment is scaled down to 0, then back to 1, or if the pod
@@ -94,7 +94,7 @@ is deleted, the deployment will recreate the pod definition with ... the wrong c
 
 So really, you need to fix the deployment definition. One way to achieve that is with the command line using `oc`, for example with
 the command `oc set image ...` but in this case, we are going to edit the yaml file directly from the OpenShift console. Everything
-is exlained in the next two screenshots
+is explained in the next two screenshots
 <Zoom>
 ![solution1](/static/images/exercise1/solution1.png)
 </Zoom>
@@ -102,7 +102,7 @@ is exlained in the next two screenshots
 ![solution2](/static/images/exercise1/solution2.png)
 </Zoom>
 
-Your pod should now start correctly. Have a play at pacman, try to hit a highscore, read the next section, and move on to the next exercise
+Your pod should now start correctly. Have a play at Pacman, try to hit a high score, read the next section, and move on to the next exercise
 <Zoom>
 ![solution3](/static/images/exercise1/solution3.png)
 </Zoom>

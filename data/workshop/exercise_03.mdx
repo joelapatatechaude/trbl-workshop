@@ -5,10 +5,10 @@ date: '2020-01-03'
 tags: ['Medium', 'pod']
 draft: false
 authors: ['default']
-summary: "Why is this ReplicSet not starting my pod"
+summary: "Why is this ReplicaSet not starting my pod"
 ---
 One of your colleague has containerized the famous 2048 game/puzzle, and want's to run in on the
-OpenShift cluster, for his lunchbreak time of course. However this container won't schedule.
+OpenShift cluster, for his lunch break time of course. However this container won't schedule.
 
 You own your colleague a few favours, so you agree to help him fix the scheduling issue. 
 
@@ -18,7 +18,7 @@ Let's get started!
 
 
 ## What's going on?
-Navigate to your project (exercise03-userXX), make sure you are in the developer perspective, and pick the "Topology view" from the left pannel.
+Navigate to your project (exercise03-userXX), make sure you are in the developer perspective, and pick the "Topology view" from the left panel.
 
 
 <Zoom>
@@ -29,7 +29,7 @@ You may try and identify the issue. Poke around, click, explore.
 If no luck after a few minutes, then check the hints below as needed.
 
 Oh, I almost forgot. This 2048 container is running fine in the project `exercise03-readonly`.
-While comparing this project with yours will not help you, you might find it usefull, at some point, to look at this project, and maybe observe a bit
+While comparing this project with yours will not help you, you might find it useful, at some point, to look at this project, and maybe observe a bit
 the resource consumptions of this pod. I think already said too much.
 
 Good luck!
@@ -47,7 +47,7 @@ From the notification in yellow, it looks like:
 - there is some quota setup on this project
 - OCP ask you to setup the CPU requests and limits for this deployment.
 
-Note that this message is a notification. It will not diseapear until you click on the cross. It will remain even if it's not relevant.
+Note that this message is a notification. It will not disappear until you click on the cross. It will remain even if it's not relevant.
 The real source of the message is visible in the Event section of the ReplicaSets. You will want to check regularly there as you try and fix things. 
 
 Not sure what limits and requests are? Probably worth reading the first two paragraph of this documentation:
@@ -88,7 +88,7 @@ Pick tha admin perspective, head over the Administration/Resource quotas, click 
   <summary>How to check what's blocking my ReplicaSet to start the pod?</summary>
 
 You probably already tried to adjust the requests / limits for your 2048 deployment. It may or may not work. If it does not work, one place
-to check for usefull messages is in the Events section of your ReplicatSets, for example:
+to check for useful messages is in the Events section of your ReplicaSets, for example:
 <Zoom>
 ![hint3](/static/images/exercise3/hint3.png)
 </Zoom>
@@ -117,7 +117,7 @@ you POD might hit some Out of Memory issue. You may encounter that. If so, head 
   <summary>How to check resource usage?</summary>
 
 Depending of the type of application deployed, you may or may not know the minimum amount of resources (in particular, memory) required
-to run. Sometime, you will need to "observe" the resource comsuptions. You can head over the exercise03-readonly project that is running
+to run. Sometime, you will need to "observe" the resource consumptions. You can head over the exercise03-readonly project that is running
 the 2048 app, and check it's resource usage. This should give you an idea for your own limits/requests memory.
 
 <Zoom>
@@ -159,7 +159,7 @@ Do you think this pod is at risk of being killed if the memory of this node is e
 
 The request really set the guaranteed amount of Memory for this container. But this amount is not enough to run this game,
 as it needs about 20 MiB. While OpenShift allow this container to use up to the Limit of 20MiB if resource permit, if this
-node sundenly starve Memory, this container will hit an OOM issue, and will be killed. It may be rescheduled on another node,
+node suddenly starve Memory, this container will hit an OOM issue, and will be killed. It may be rescheduled on another node,
 or may not be reschedulable, but that's another story.
 
 Needless to say, the next step would be to ask the Administrator to bump the Memory Request of this project to 20MiB, to be safe from issues.
@@ -189,13 +189,13 @@ But for you, I took a screenshot comparing the memory as seen by the 2048 pod, a
 
 This means that some applications that like to auto-calculate the memory it will use (i.e. a Java app auto-setting it's own heap size)
 will calculate against the total amount of memory, which may create problem. This is why in a containerized world, it is important
-to carefuly control the memory the application will use (i.e. by setting the heap size).
+to carefully control the memory the application will use (i.e. by setting the heap size).
 
 
 ## Take away
 - ResourceQuotas are usually set on Project, in which case pods/containers must specify the Limit and Request for each of those CPU/Mem resource.
-- It may be usefull to Observe the resource profile of an application over time, to understand how much resource should be allocated
-- While CPU overcommitment may not result in application crash, as CPU access can be throotle, it's a different story for Memory,
+- It may be useful to Observe the resource profile of an application over time, to understand how much resource should be allocated
+- While CPU overcommitment may not result in application crash, as CPU access can be throttle, it's a different story for Memory,
 and failing to carefully manage Memory allocation may result in OOM
-- ReplicSet resources, which are managed by the Deployment resource, will provide valuable insights, when checking the ReplicatSet Events.
+- ReplicaSet resources, which are managed by the Deployment resource, will provide valuable insights, when checking the ReplicaSet Events.
 
