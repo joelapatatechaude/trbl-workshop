@@ -13,7 +13,7 @@ Will explain when it's in a shareable form.
 # Development
 There is a devfile, so use OpenShift DevSpaces!
 
-# Testing this content locally
+# Testing this content locally (if you don't use Dev Spaces)
 ```
 npm install
 npm run-script start
