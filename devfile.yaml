@@ -10,8 +10,8 @@ components:
           name: nodejs
           targetPort: 3000
           protocol: https
-      memoryLimit: '2Gi'
-      memoryRequest: '1Gi'
+      memoryLimit: '3Gi'
+      memoryRequest: '3Gi'
       cpuLimit: '2'
       cpuRequest: '1'
       mountSources: true
