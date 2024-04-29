@@ -8,7 +8,7 @@
       <managingEditor>cschmitz@redhat.com (Red Hat)</managingEditor>
       <webMaster>cschmitz@redhat.com (Red Hat)</webMaster>
       <lastBuildDate>Wed, 01 Jan 2020 00:00:00 GMT</lastBuildDate>
-      <atom:link href="https://trbl.cszevaco.com/tags/easy/feed.xml" rel="self" type="application/rss+xml"/>
+      <atom:link href="https://trbl.cszevaco.com/tags/pod/feed.xml" rel="self" type="application/rss+xml"/>
       
   <item>
     <guid>https://trbl.cszevaco.com/workshop/exercise_01</guid>
@@ -28,6 +28,16 @@
     <pubDate>Thu, 02 Jan 2020 00:00:00 GMT</pubDate>
     <author>cschmitz@redhat.com (Red Hat)</author>
     <category>easy</category><category>pod</category>
+  </item>
+
+  <item>
+    <guid>https://trbl.cszevaco.com/workshop/exercise_03</guid>
+    <title>ReplicaSet issue</title>
+    <link>https://trbl.cszevaco.com/workshop/exercise_03</link>
+    <description>Why is this ReplicaSet not starting my pod</description>
+    <pubDate>Fri, 03 Jan 2020 00:00:00 GMT</pubDate>
+    <author>cschmitz@redhat.com (Red Hat)</author>
+    <category>Medium</category><category>pod</category>
   </item>
 
     </channel>

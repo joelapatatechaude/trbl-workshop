@@ -1,0 +1,34 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Red Hat Troubleshooting Workshop</title>
+      <link>https://trbl.cszevaco.com/workshop</link>
+      <description>Red Hat Troubleshooting Workshop</description>
+      <language>en-us</language>
+      <managingEditor>cschmitz@redhat.com (Red Hat)</managingEditor>
+      <webMaster>cschmitz@redhat.com (Red Hat)</webMaster>
+      <lastBuildDate>Fri, 03 Jan 2020 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://trbl.cszevaco.com/tags/medium/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://trbl.cszevaco.com/workshop/exercise_03</guid>
+    <title>ReplicaSet issue</title>
+    <link>https://trbl.cszevaco.com/workshop/exercise_03</link>
+    <description>Why is this ReplicaSet not starting my pod</description>
+    <pubDate>Fri, 03 Jan 2020 00:00:00 GMT</pubDate>
+    <author>cschmitz@redhat.com (Red Hat)</author>
+    <category>Medium</category><category>pod</category>
+  </item>
+
+  <item>
+    <guid>https://trbl.cszevaco.com/workshop/exercise_04</guid>
+    <title>Network issue</title>
+    <link>https://trbl.cszevaco.com/workshop/exercise_04</link>
+    <description>Why can&#39;t I access the app of my pod?</description>
+    <pubDate>Sat, 04 Jan 2020 00:00:00 GMT</pubDate>
+    <author>cschmitz@redhat.com (Red Hat)</author>
+    <category>medium</category><category>network</category>
+  </item>
+
+    </channel>
+  </rss>
