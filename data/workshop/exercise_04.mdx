@@ -11,18 +11,29 @@ summary: "Why can't I access the app of my pod?"
 One of your colleague loves playing Wordle during his lunch break, but the the corporate firewall is blocking it.
 He managed to containerize the game and deploy it to the OpenShift cluster, but something is wrong. He thinks
 it's related to the network, and ask for your help. You love Wordle too, so you decide to give it a go and try to
-fix it. Good luck!
+fix it. Important: your colleague told you he created all the required resources, and you only need to edit one or
+some of them. Hint: that's correct.
 
-Let's get started!
+A few things to be aware of:
+- There will be more than one problem to troubleshoot and fix.
+- You will have edit permission only on a few OpenShift resources. That's because there are various way to fix
+the problem, and for the training purpose, we will only let you fix it in some specific places.
+- Your colleague created all the required resource (pod, service, route). You won't need to create / delete any
+(in fact, you probably can't due to RBAC permission on this project), you just need to fix the existing one.
+
+Good luck!
+
 
 <TOCInline toc={props.toc} asDisclosure />
 
 
 ## What's going on?
-Something with the wrong image placeholder
+
+You head straight to the `exercise04-userXX` namespace, pick the "Developer perspective", check the topology view, and click on the
+deployment, only to find out that there is no route or service attached to this deployment. No wonder it's not working. But how to fix that?
 
 <Zoom>
-![topology](/static/images/redhat.png)
+![topology](/static/images/exercise4/problem.png)
 </Zoom>
 
 
@@ -48,6 +59,8 @@ Something
 
 
 ## Did you know?
+### OpenShift Administrator/Developer perspectives
+You can customize perspective, or create new perspectives.
 
 ### something to know
 
