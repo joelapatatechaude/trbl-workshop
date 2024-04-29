@@ -60,15 +60,95 @@ It looks like the "Wordle" route is using the "Wordle" service, which is good. L
 <details>
   <summary>How to check the Service is correctly load balancing to pod(s)?</summary>
 
+OpenShift Services is an abstraction that expose a set of Pods over the network. In this case,
+the Wordle Service should expose the the wordle pod. You can check if that's the case by heading
+over the pod section of the service, see below.
 
 <Zoom>
 ![hint2](/static/images/exercise4/hint2.png)
 </Zoom>
 
+Something is not correct. The Wordle pod is not displayed. You need to fix that. The
+following link should help you.
+
+https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service
+
+Once you fix it, the Wordle pod will appear in the Service's pod section, as shown below. If you can't get it to work, 
+you will need to head over the solution section. In addition, the link for the route next to the pod will appear (check
+the topology view)
+
+<Zoom>
+![hint2](/static/images/exercise4/hint2-2.png)
+</Zoom>
+
+</details>
+
+### Hint 3
+<details>
+  <summary>How to check which port an app is listening to?</summary>
+
+At this stage, it's probably a good idea to check which port wordle is using. Sometime, this information is available in the application
+documentation, sometime the port is configurable (via a config file, or an environment variable), sometime the Containerfile (Dockerfile)
+provides some hints with the [EXPOSE](https://docs.docker.com/reference/dockerfile/#expose) directive.
+Quite often, the application log is displaying which network interface / which port is used.
+Let's start by checking this:
+
+<Zoom>
+![hint3](/static/images/exercise4/hint3.png)
+</Zoom>
+
+Sometime, the application log display nothing. Either because the log level is too low, or because the way the container image has been build
+does not expose the log correctly. In those rare case, it might be necessary to connect to a running container, and inspect
+via some command lines tool to understand if the app is listening to some port. That's what we are doing next.
+
+<Zoom>
+![hint3](/static/images/exercise4/hint3-2.png)
+</Zoom>
+
+At this stage, we know the app is running, is listening on all interfaces (0.0.0.0), using port 3000.
+
 </details>
 
 
+### Hint 4
+<details>
+  <summary></summary>
+
+
+
+<Zoom>
+![hint4](/static/images/exercise4/hint4.png)
+</Zoom>
+
+
+</details>
+
+
+
 ## Solution
+
+### Solution part 1
+The first thing to do is to fix the service selector. You probably saw from Hint 2 that the service is not selecting ant pod.
+There is a typo, and currently the wordle service is looking
+for pod with the label `app: poodle`. If you check the wordle pod list of labels, you will notice that it is using
+`app: wordle`. 
+
+<Zoom>
+![solution1](/static/images/exercise4/solution1.png)
+</Zoom>
+
+You could decide to update this label into the pod, (or much better, into the deployment's template). But
+you can only edit the services in this namespace, so go ahead and fix the service.
+
+<Zoom>
+![solution2](/static/images/exercise4/solution2.png)
+</Zoom>
+
+Now, you should see that the service is finally load balancing across a set of one pod. But that's not enough for
+this exercise. Moving on to the next part of the solution....
+
+### Solution part 2
+
 
 
 ## Did you know?
