@@ -20,6 +20,7 @@ A few things to be aware of:
 the problem, and for the training purpose, we will only let you fix it in some specific places.
 - Your colleague created all the required resource (pod, service, route). You won't need to create / delete any
 (in fact, you probably can't due to RBAC permission on this project), you just need to fix the existing one.
+- Network resources are visible under the Administrator perspective, rather than the Developer perspective.
 
 Good luck!
 
@@ -109,17 +110,36 @@ At this stage, we know the app is running, is listening on all interfaces (0.0.0
 
 </details>
 
-
 ### Hint 4
 <details>
-  <summary></summary>
+  <summary>How to check service/app port mapping?</summary>
 
-
-
+We know the app is listening on port 3000. How about the `wordle` service?
+If we open a terminal session on any pod in your namespace, we should be able to
+query wordle:3000. We can even do that from the wordle pod. Let's give it a try. 
 <Zoom>
 ![hint4](/static/images/exercise4/hint4.png)
 </Zoom>
+Something is not right right. Is the wordle service even listening on port 3000?
 
+Let's check the service
+<Zoom>
+![hint4](/static/images/exercise4/hint4-2.png)
+</Zoom>
+Looks like the service is listening on port 5000 (which is ok), but targeting port 4000 on the pod, which is not.
+Let's head over the YAML view and update that.
+
+<Zoom>
+![hint4](/static/images/exercise4/hint4-3.png)
+</Zoom>
+
+We can now test, from the terminal pod, that we can reach the container application via the wordle service on port 5000 
+
+<Zoom>
+![hint4](/static/images/exercise4/hint4-4.png)
+</Zoom>
+
+It's good progress, you should check the route to see if it's working now.
 
 </details>
 
@@ -148,22 +168,48 @@ Now, you should see that the service is finally load balancing across a set of o
 this exercise. Moving on to the next part of the solution....
 
 ### Solution part 2
+The second thing to do is to fix the port mapping between the application (which listen port 3000), and the service (which target port 4000)
 
+<Zoom>
+![solution3](/static/images/exercise4/solution3.png)
+</Zoom>
+
+Hopefully, your route is now working, and you can have a well deserved game of wordle.
+
+<Zoom>
+![solution4](/static/images/exercise4/solution4.png)
+</Zoom>
 
 
 ## Did you know?
+
+### Contextual schema information
+
+OpenShift provides contextual help for the Resource Definitions displayed on the console.
+Click on it when you need a bit more information.
+
+<Zoom>
+![duk1](/static/images/exercise4/duk1.png)
+</Zoom>
+
+
 ### OpenShift Administrator/Developer perspectives
-You can customize perspective, or create new perspectives.
+Out of the box, you have an Administrator, and a Developer perspectives.
+You can customize those perspectives, or create new perspectives as you see fit!
 
-### something to know
-
-
-### something else to know
+https://docs.openshift.com/container-platform/4.15/web_console/customizing-the-web-console.html#odc-customizing-user-perspectives_customizing-web-console
 
 
 ## Take away
-Some summary
-- point 1
-- point 2
+
+There are multiple way to gather Networking information. The most experienced of you may have fixed everything within a couple of minutes,
+yet it's worthwhile looking at the various hints to understand how to gather information:
+- Looking at the Route definition
+- Looking at the Service definition
+- Checking the pods selected by a Service
+- Look at the container logs
+- Opening a terminal session from the pod to inspect network, and test connectivity
+
+
 
 
