@@ -73,31 +73,69 @@ Nothing new. Keep digging!
 
 ### Hint 4
 <details>
-  <summary></summary>
+  <summary>How to check pod's node affinity?</summary>
 
+Let's first check if there is some affinity setup on this pod, and if that's what
+is preventing the scheduling. There is no convenient way to check that (that I know of), so we
+should check the Yaml file, i.e. with the search feature.
 
 <Zoom>
 ![hint4](/static/images/exercise5/hint4.png)
 </Zoom>
 
+No affinity issue, moving on to node selector, maybe?
+
 </details>
 
 ### Hint 5
 <details>
-  <summary></summary>
+  <summary>How to check pod's node selector?</summary>
 
+Pod selector can be visualize through the Details view of the pod, or replicaSet, or Deployment.
+
+In the image below, we check from the Pod details view.
 
 <Zoom>
 ![hint5](/static/images/exercise5/hint5.png)
 </Zoom>
 
+So yes, there is some nodeSelector setup. To select which node(s) exactly?
+
+There is this nice link to trigger a search on the node selector label
 
 <Zoom>
 ![hint5](/static/images/exercise5/hint5-2.png)
 </Zoom>
 
+Mmmm no nodes with this label found. No wonder it's not working.
+It's probably a good time to check a bit the nodeSelector documentation here: https://docs.openshift.com/container-platform/4.15/nodes/scheduling/nodes-scheduler-node-selectors.html
+
+You may be tempted to simply delete the nodeSelector section of the pod (in fact, it should be done in the template section of the Deployment, to make sure future
+pods are also affected by your change). However, I added a validating webhook that will prevent any pod without a nodeSelector to be created in this namespace.
+Just to make sure you find a proper solution...
 
 </details>
+
+### Hint 6
+<details>
+  <summary>How to check labels on node?</summary>
+
+If your role have the appropriate permission to `get & list nodes` (which is the case today),
+you should be able to see the nodes from the Administrator perspective.
+
+<Zoom>
+![hint6](/static/images/exercise5/hint6.png)
+</Zoom>
+
+And then you should be able to see the Details view of the node, which includes it's label
+
+<Zoom>
+![hint7](/static/images/exercise5/hint7.png)
+</Zoom>
+
+</details>
+
+Enough hints for today, you should be able to fix it, otherwise have a look at the solution!
 
 ## Solution
 
@@ -115,6 +153,4 @@ Some summary
 - point 1
 - point 2
 
-
-import { source } from "github-slugger/regex"
 
