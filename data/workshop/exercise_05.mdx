@@ -9,34 +9,95 @@ summary: "Why is this pod not being scheduled?"
 ---
 
 
+You recently heard in the news that a young kid managed to hit a theoretical Tetris High Score that triggers a bug.
+This remind you of the old good time, and you managed to create all the required resource to play Tetris on your cluster (only during lunch break)
+But something still not working, and your pod doesn't deploy.
+
+Go, fix it, and slam that high score.
+Good luck!
+
+
 <TOCInline toc={props.toc} asDisclosure />
 
 
 ## What's going on?
-Something with the wrong image placeholder
+
+You head straight to the `exercise05-userXX` namespace, pick the "Developer perspective", check the topology view. You see this
+light blue deployment, and as an experienced OpenShift user, you know it should be dark blue!
 
 <Zoom>
-![topology](/static/images/redhat.png)
+![topology](/static/images/exercise5/problem.png)
 </Zoom>
 
+Poke around, click, explore, and fix it!
 
+Note: If you try to use a "lazy" shortcut solution, you may hit an error from a custom webhook admission controller.
 
 ## Hints
 ### Hint 1
 <details>
-  <summary>Reveal me</summary>
+  <summary>How to quickly see the pod status?</summary>
 
-Something
+You probably already found that the Pod is unschedulable.
+<Zoom>
+![hint1](/static/images/exercise5/hint1.png)
+</Zoom>
+The message indicates it's something to do with pod's node affinity/selector.
 
 </details>
 
 ### Hint 2
 <details>
-  <summary>Reveal me</summary>
+  <summary>How to check the pod events?</summary>
 
-Something
+You probably had a quick look at the pod events, to see if you get more information.
+<Zoom>
+![hint2](/static/images/exercise5/hint2.png)
+</Zoom>
+Nothing new. Keep digging!
+
 </details>
 
+### Hint 3
+<details>
+  <summary>How to check the pod status/message?</summary>
+
+The source of truth is often in the Yaml itself, so you probably decided to check
+the current yaml of the deployment.
+<Zoom>
+![hint3](/static/images/exercise5/hint3.png)
+</Zoom>
+Nothing new. Keep digging!
+
+</details>
+
+### Hint 4
+<details>
+  <summary></summary>
+
+
+<Zoom>
+![hint4](/static/images/exercise5/hint4.png)
+</Zoom>
+
+</details>
+
+### Hint 5
+<details>
+  <summary></summary>
+
+
+<Zoom>
+![hint5](/static/images/exercise5/hint5.png)
+</Zoom>
+
+
+<Zoom>
+![hint5](/static/images/exercise5/hint5-2.png)
+</Zoom>
+
+
+</details>
 
 ## Solution
 
@@ -54,4 +115,6 @@ Some summary
 - point 1
 - point 2
 
+
+import { source } from "github-slugger/regex"
 
