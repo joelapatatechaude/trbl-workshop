@@ -67,7 +67,17 @@
     <description>Why is this pod not being scheduled?</description>
     <pubDate>Sun, 05 Jan 2020 00:00:00 GMT</pubDate>
     <author>cschmitz@redhat.com (Red Hat)</author>
-    <category>easy</category>
+    <category>easy</category><category>pod</category>
+  </item>
+
+  <item>
+    <guid>https://trbl.cszevaco.com/workshop/exercise_06</guid>
+    <title>Deletion issue</title>
+    <link>https://trbl.cszevaco.com/workshop/exercise_06</link>
+    <description>Why is this namespace deletion stuck?</description>
+    <pubDate>Mon, 06 Jan 2020 00:00:00 GMT</pubDate>
+    <author>cschmitz@redhat.com (Red Hat)</author>
+    <category>medium</category><category>pod</category><category>pv</category><category>pvc</category>
   </item>
 
     </channel>
