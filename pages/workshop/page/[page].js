@@ -4,6 +4,7 @@ import { getAllFilesFrontMatter } from '@/lib/mdx'
 import ListLayout from '@/layouts/ListLayout'
 import { POSTS_PER_PAGE } from '..'
 
+
 export async function getStaticPaths() {
   const totalPosts = await getAllFilesFrontMatter('workshop')
   const totalPages = Math.ceil(totalPosts.length / POSTS_PER_PAGE)

@@ -5,7 +5,11 @@ import siteMetadata from '@/data/siteMetadata'
 import { getAllFilesFrontMatter } from '@/lib/mdx'
 import formatDate from '@/lib/utils/formatDate'
 
-const MAX_DISPLAY = 5
+// ADDED
+import { POSTS_PER_PAGE } from './workshop.js'
+
+// Was 5
+const MAX_DISPLAY = POSTS_PER_PAGE
 
 export async function getStaticProps() {
   const posts = await getAllFilesFrontMatter('workshop')
@@ -82,7 +86,7 @@ export default function Home({ posts }) {
             className="text-primary-800 dark:text-primary-700 hover:text-primary-900 dark:hover:text-primary-400"
             aria-label="all posts"
           >
-            All Posts &rarr;
+            All Exercises &rarr;
           </Link>
         </div>
       )}
