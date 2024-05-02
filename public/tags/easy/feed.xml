@@ -30,5 +30,15 @@
     <category>easy</category><category>pod</category>
   </item>
 
+  <item>
+    <guid>https://trbl.cszevaco.com/workshop/exercise_05</guid>
+    <title>Pod scheduling issue</title>
+    <link>https://trbl.cszevaco.com/workshop/exercise_05</link>
+    <description>Why is this pod not being scheduled?</description>
+    <pubDate>Sun, 05 Jan 2020 00:00:00 GMT</pubDate>
+    <author>cschmitz@redhat.com (Red Hat)</author>
+    <category>easy</category>
+  </item>
+
     </channel>
   </rss>
