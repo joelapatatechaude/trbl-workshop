@@ -74,7 +74,7 @@
     <guid>https://trbl.cszevaco.com/workshop/exercise_06</guid>
     <title>Deletion issue</title>
     <link>https://trbl.cszevaco.com/workshop/exercise_06</link>
-    <description>Why is this namespace deletion stuck?</description>
+    <description>Why is this namespace deletion stuck in &#39;Terminating&#39;?</description>
     <pubDate>Mon, 06 Jan 2020 00:00:00 GMT</pubDate>
     <author>cschmitz@redhat.com (Red Hat)</author>
     <category>medium</category><category>pod</category><category>pv</category><category>pvc</category>
