@@ -161,6 +161,19 @@ You will be able to access the logs of each of those via a dropdown menu. Here i
 ![duk2](/static/images/exercise2/duk2.png)
 </Zoom>
 
+### Debug a container link
+When a pod is in crashloop, you can access the "debug a container" link from the "Logs" section of the pod:
+
+<Zoom>
+![duk4](/static/images/exercise2/duk4.png)
+</Zoom>
+
+This link is not displayed if the pod is running normally (as of OpenShift 4.15.8)
+However, if you are fast enough, you may catch the link on time, right when a new pod starts (replacing a deleted one)
+See the animation below. Are you fast enough to reproduce?
+<Zoom>
+![duk4](/static/images/exercise2/duk4-2.gif)
+</Zoom>
 
 ## Take away
 When a pod crashloop, the common approach to understand what's going on are:
