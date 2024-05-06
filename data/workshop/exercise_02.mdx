@@ -84,13 +84,13 @@ You have direct access to the container log. What do you see?
 ![hint4](/static/images/exercise2/hint4.png)
 </Zoom>
 
-The entrypoint used by a container is typically "backed" inside the container image. The next step
+The entrypoint used by a container is typically "baked" inside the container image. The next step
 would be to fix the container image itself. However, we won't do that for this exercise.
 Instead, we are going to overwrite this entrypoint in the deployment definition, a bit like what's done automatically
 at the pod definition level, when running the container in debugger mode (see Hint 3).
 
 You will want to modify the Yaml file of the Deployment (not the Pod) to overwrite this entrypoint.
-Here is some useful documentation, first to make sure you understand the subtle difference between
+Below is some useful documentation, first to make sure you understand the subtle difference between
 command (CMD) and entrypoint (ENTRYPOINT) in a containerfile, and how they work together:
 - https://docs.docker.com/reference/dockerfile/#cmd
 - https://docs.docker.com/reference/dockerfile/#entrypoint
@@ -114,7 +114,7 @@ yet deprecated). https://docs.openshift.com/container-platform/4.15/applications
 ## Solution
 
 Ok, if you looked at the hints, you probably understood that:
-- the "backed" entrypoint of that container has a typo
+- the "baked" entrypoint of that container has a typo
 - for this exercise, you should update the Deployment definition (instead of trying to fix the container image) to overwrite this entrypoint 
 
 Here is how it looks:
