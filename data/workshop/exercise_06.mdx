@@ -7,53 +7,185 @@ draft: false
 authors: ['default']
 summary: "Why is this namespace deletion stuck in 'Terminating'?"
 ---
-After a few month of hard work, one of your colleague had successfully mastered the tic-tac-toe game, and decided
-it was time to remove this game from the OpenShift cluster. He deleted the namespace, but something is wrong.
+After a few months of hard work, one of your colleague had successfully mastered the tic-tac-toe game, and decided
+it was time to remove this game from the OpenShift cluster. He deleted the whole namespace, but something went wrong.
 The namespace is still around, in a 'Terminating' state. He asked for your wise expertise.
-
-Important: You will find you need to cleanup some resources. There is one in particular resource you should cleanup last,
-or you will lock yourself out of this namespace. It will become clear during as long as you pay attention.
-
-Good luck!
 
 <TOCInline toc={props.toc} asDisclosure />
 
-
 ## What's going on?
-Something with the wrong image placeholder
+
+You head straight to the `exercise06-userXX` namespace (from the developer perspective) and look at the project page.
+It says "Terminating", but nothing seems to progress.
 
 <Zoom>
-![topology](/static/images/redhat.png)
+![topology](/static/images/exercise6/problem.png)
 </Zoom>
 
+Important: You will find you need to cleanup some resources. There is one resource in particular you should cleanup last,
+or you will lock yourself out of your namespace. I left some hints, it will become obvious which one I mean when you investigate.
 
+See if you can investigate further, find what is blocking the termination of the namespace, and fix it. Good luck!
 
 ## Hints
+
 ### Hint 1
 <details>
-  <summary>Reveal me</summary>
+  <summary>How to quickly check the common resource type inventory?</summary>
 
-Something
+From the Developer perspective, you can get an overview of the common resource type in the
+project page (scroll down a bit)
+<Zoom>
+![hint1](/static/images/exercise6/hint1.png)
+</Zoom>
+How come there are still some resources hanging around?
+
+Note: Not all resource type are listed, only the most common.
 
 </details>
 
 ### Hint 2
 <details>
-  <summary>Reveal me</summary>
+  <summary>How to check the namespace deletion information?</summary>
 
-Something
+The Developer perspective doesn't expose the YAML details of the namespace. You know that
+the YAML resource often expose useful information, and you want to check it. If you
+switch to the Administrator perspective, you will be able to check it's content, and
+as is sometime the case, find valuable information toward the end:
+<Zoom>
+![hint1](/static/images/exercise6/hint2.png)
+</Zoom>
+The three messages here are very useful, and should give you an idea on what is going on,
+and what to do next.
+
+</details>
+
+
+### Hint 3
+<details>
+  <summary>Why is the PVC stuck in terminating state?</summary>
+
+From Hint 1 and 2, you probably saw there was a PVC that was not deleted.
+Unless you already got rid of the Pod to which this PVC was bound to, you will see
+that this PVC stuck in terminating state. Why is that?
+<Zoom>
+![hint3](/static/images/exercise6/hint3.png)
+</Zoom>
+What is this kuberenetes.io/pvc-protection finalizer? You should check this paragraph of the Kubernetes documentation:
+https://kubernetes.io/docs/concepts/storage/persistent-volumes/#storage-object-in-use-protection
+
+Do you think you need to do something for this PVC at this stage?
+
+</details>
+
+### Hint 4
+<details>
+  <summary>Why is this pod stuck in terminating state?</summary>
+
+From the first or second hint, you probably saw that one pod was not fully deleted. You won't see the pod in terminating state
+from the topology view. If you look at the Admin view however, you will get more info:
+
+<Zoom>
+![hint4](/static/images/exercise6/hint4.png)
+</Zoom>
+ You will want to inspect the YAML section of this pod, and look carefully at the finalizers.
+ If you need to know more about finalizers, head over this page:
+ https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/
+
+ This blog post section is also quite useful (ignore the "Owner References" section):
+ https://kubernetes.io/blog/2021/05/14/using-finalizers-to-control-deletion/#understanding-finalizers
+
+ Do you think you need to do something for this pod at this stage?
+
+</details>
+
+### Hint 5
+<details>
+  <summary>Why is this secret stuck in terminating state?</summary>
+  
+From the first or second hint, you probably saw that one secret was not fully deleted.
+Let's have a look at it's YAML content:
+
+<Zoom>
+![hint5](/static/images/exercise6/hint5.png)
+</Zoom>
+ 
+ Do you think you need to do something for this pod at this stage?
+
+</details>
+
+### Hint 5
+<details>
+  <summary>What's left to cleanup?</summary>
+  
+If you go back to your YAML project (see hint 2), you will see that you still
+have this rolebinding resource to cleanup. The process is similar than other
+resources, you can now safely go ahead.
+
 </details>
 
 
 ## Solution
 
+Make sure to refresh your memory on finalizers, a few documentation link were provided
+in the previous hint section.
+The PersistentVolumeClaim has a finalizer (pvc-protection). It's role is to prevent the
+deletion of the PVC while in used by pod. Since the pod is also in terminating state, and not
+fully deleted, the pvc finalizer remain, and block the deletion of the pvc.
+You don't really need to remove this legitimate finalizer, it will get automatically removed
+when the pod is deleted.
+<Zoom>
+![solution](/static/images/exercise6/solution1.png)
+</Zoom>
+
+You can see that the pod has a finalizer that shouldn't be there. Just remove it.
+Note that as soon as you remove it:
+1. the pod is fully deleted
+2. the pvc is also fully deleted (check)
+<Zoom>
+![solution](/static/images/exercise6/solution2.png)
+</Zoom>
+
+You can proceed the same way with the secret.
+
+
+Finally , at the very last step, you should remove the rolebinding. Once removed, your namespace will finally
+be terminated.
+<Zoom>
+![solution](/static/images/exercise6/solution3.png)
+</Zoom>
+
+Why do you think the rbac should be done at the last step?
+
+If you remove it too early, you will lose access to your namespace, and only a cluster admin will be
+able to access the namespace and cleanup up for you.
+
+Congratulation, the namespace is gone! No game to play, but tictactoe is boring anyway.
 
 ## Did you know?
 
-### something to know
+### Common finalizers
+Common finalizers include:
+- kubernetes.io/pvc-protection which you saw today
+- kubernetes.io/pv-protection which prevents a pv to be removed while it is bound to a pvc
+- kubernetes for Namespaces only, in the .spec section your namespace has this finalizer, but you can't remove it manually.
+- resources-finalizer.argocd.argoproj.io that controls cascading deletion of argocd applications (see https://argo-cd.readthedocs.io/en/stable/user-guide/app_deletion/#about-the-deletion-finalizer)
+
+and there is more.
+
+### Owner references and deletion
+
+An other mechanism that impact the way resource are deleted is owner references.
+You will find some good explanation here https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/
+A typical example of ownership can be seen with Deployment -> ReplicaSet -> Pod. For example:
 
 
-### something else to know
+<Zoom>
+![duk](/static/images/exercise6/duk2.png)
+</Zoom>
+
+In the example above, what happens if someone delete the deployment, but the pod remains stuck in "terminating" state?
+The "blockOwnerDeletion" will prevent the replicSet to be terminated, which in turn will prevent the replicaSet to be terminated.
 
 
 ## Take away
