@@ -143,7 +143,7 @@ Enough hints for today, you should be able to fix it, otherwise have a look at t
 ## Solution
 
 You probably understood that you need to specify a nodeSelector using a label from (one of) the actual OpenShift node.
-From Hint 7, you probably picked one label of your choice (it doesn't matter which one for the purpose of this exercise)
+From Hint 6, you probably picked one label of your choice (it doesn't matter which one for the purpose of this exercise)
 Now, all you have to do is edit the nodeSelector of your deployment.
 
 Warning: If you edit the nodeSelector of the pod itself, then be aware that if the pod is deleted, or if it crashes, the 
