@@ -67,7 +67,7 @@ and what to do next.
 
 From Hint 1 and 2, you probably saw there was a PVC that was not deleted.
 Unless you already got rid of the Pod to which this PVC was bound to, you will see
-that this PVC stuck in terminating state. Why is that?
+that this PVC is stuck in terminating state. Why is that?
 <Zoom>
 ![hint3](/static/images/exercise6/hint3.png)
 </Zoom>
@@ -120,7 +120,8 @@ Let's have a look at it's YAML content:
   
 If you go back to your YAML project (see hint 2), you will see that you still
 have this rolebinding resource to cleanup. The process is similar than other
-resources, you can now safely go ahead.
+resources, and as long the rolebinding is the last resource in your namespace,
+you can safely go ahead and clean it.
 
 </details>
 
@@ -128,7 +129,7 @@ resources, you can now safely go ahead.
 ## Solution
 
 Make sure to refresh your memory on finalizers, a few documentation link were provided
-in the previous hint section.
+in the previous hint sections.
 The PersistentVolumeClaim has a finalizer (pvc-protection). It's role is to prevent the
 deletion of the PVC while in used by pod. Since the pod is also in terminating state, and not
 fully deleted, the pvc finalizer remain, and block the deletion of the pvc.
@@ -146,7 +147,11 @@ Note that as soon as you remove it:
 ![solution](/static/images/exercise6/solution2.png)
 </Zoom>
 
-You can proceed the same way with the secret.
+You can proceed the same way with the secret my-secret:
+<Zoom>
+![solution](/static/images/exercise6/solution4.png)
+</Zoom>
+
 
 
 Finally , at the very last step, you should remove the rolebinding. Once removed, your namespace will finally
@@ -160,7 +165,9 @@ Why do you think the rbac should be done at the last step?
 If you remove it too early, you will lose access to your namespace, and only a cluster admin will be
 able to access the namespace and cleanup up for you.
 
-Congratulation, the namespace is gone! No game to play, but tictactoe is boring anyway.
+![terminator](/static/images/exercise6/terminator.gif)Terminator
+
+Congratulation, the namespace is gone!
 
 ## Did you know?
 
@@ -185,12 +192,15 @@ A typical example of ownership can be seen with Deployment -> ReplicaSet -> Pod.
 </Zoom>
 
 In the example above, what happens if someone delete the deployment, but the pod remains stuck in "terminating" state?
-The "blockOwnerDeletion" will prevent the replicSet to be terminated, which in turn will prevent the replicaSet to be terminated.
+The "blockOwnerDeletion" will prevent the replicaSet to be terminated, which in turn will prevent the Deployment to be terminated.
 
 
 ## Take away
-Some summary
-- point 1
-- point 2
+
+Finalizers (and owner references) play an important role in controlling kubernetes resource deletions.
+While in this exercise, we introduced a few "fake" finalizers, you will from time to time encounter
+finalizers related issue, especially when working with Persistent Volume and Persistent Volume Claims.
+It is therefore important to understand how they work.
+
 
 
