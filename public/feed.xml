@@ -1,12 +1,12 @@
 
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <title>Red Hat Troubleshooting Workshop</title>
+      <title>OpenShift Troubleshooting Workshop</title>
       <link>https://trbl.cszevaco.com/workshop</link>
-      <description>Red Hat Troubleshooting Workshop</description>
+      <description>OpenShift Troubleshooting Workshop</description>
       <language>en-us</language>
-      <managingEditor>cschmitz@redhat.com (Red Hat)</managingEditor>
-      <webMaster>cschmitz@redhat.com (Red Hat)</webMaster>
+      <managingEditor>cschmitz@redhat.com</managingEditor>
+      <webMaster>cschmitz@redhat.com</webMaster>
       <lastBuildDate>Tue, 31 Dec 2019 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://trbl.cszevaco.com/feed.xml" rel="self" type="application/rss+xml"/>
       
@@ -16,7 +16,7 @@
     <link>https://trbl.cszevaco.com/workshop/setup_instructions</link>
     <description>Setting up your environment</description>
     <pubDate>Tue, 31 Dec 2019 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
+    <author>cschmitz@redhat.com</author>
     
   </item>
 
@@ -26,7 +26,7 @@
     <link>https://trbl.cszevaco.com/workshop/exercise_01</link>
     <description>Why is my pod not starting?</description>
     <pubDate>Wed, 01 Jan 2020 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
+    <author>cschmitz@redhat.com</author>
     <category>easy</category><category>pod</category>
   </item>
 
@@ -36,7 +36,7 @@
     <link>https://trbl.cszevaco.com/workshop/exercise_02</link>
     <description>Why is this pod crashing?</description>
     <pubDate>Thu, 02 Jan 2020 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
+    <author>cschmitz@redhat.com</author>
     <category>easy</category><category>pod</category>
   </item>
 
@@ -46,7 +46,7 @@
     <link>https://trbl.cszevaco.com/workshop/exercise_03</link>
     <description>Why is this ReplicaSet not starting my pod</description>
     <pubDate>Fri, 03 Jan 2020 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
+    <author>cschmitz@redhat.com</author>
     <category>Medium</category><category>pod</category>
   </item>
 
@@ -56,7 +56,7 @@
     <link>https://trbl.cszevaco.com/workshop/exercise_04</link>
     <description>Why can&#39;t I access the app of my pod?</description>
     <pubDate>Sat, 04 Jan 2020 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
+    <author>cschmitz@redhat.com</author>
     <category>medium</category><category>network</category>
   </item>
 
@@ -66,7 +66,7 @@
     <link>https://trbl.cszevaco.com/workshop/exercise_05</link>
     <description>Why is this pod not being scheduled?</description>
     <pubDate>Sun, 05 Jan 2020 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
+    <author>cschmitz@redhat.com</author>
     <category>easy</category><category>pod</category>
   </item>
 
@@ -76,7 +76,7 @@
     <link>https://trbl.cszevaco.com/workshop/exercise_06</link>
     <description>Why is this namespace deletion stuck in &#39;Terminating&#39;?</description>
     <pubDate>Mon, 06 Jan 2020 00:00:00 GMT</pubDate>
-    <author>cschmitz@redhat.com (Red Hat)</author>
+    <author>cschmitz@redhat.com</author>
     <category>medium</category><category>pod</category><category>pv</category><category>pvc</category>
   </item>
 

@@ -1,8 +1,8 @@
 const siteMetadata = {
-  title: 'Red Hat Troubleshooting Workshop',
-  author: 'Red Hat',
-  headerTitle: 'Red Hat',
-  description: 'Red Hat Troubleshooting Workshop',
+  title: 'OpenShift Troubleshooting Workshop',
+  author: 'Christophe Schmitz',
+  headerTitle: 'OpenShift',
+  description: 'OpenShift Troubleshooting Workshop',
   language: 'en-us',
   siteUrl: 'https://trbl.cszevaco.com',
   siteRepo: 'https://github.com/joelapatatechaude/trbl-workshop',

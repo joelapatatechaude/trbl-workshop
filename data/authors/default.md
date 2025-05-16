@@ -1,8 +1,7 @@
-name: Red Hat
-avatar: /static/images/redhat.png
+name: OpenShift
 occupation: TRBL Workshop
 company: Open Source
 email: redhat@redhat.com
-twitter: https://twitter.com/RedHat
-github: https://github.com/RedHat
-linkedin: https://www.linkedin.com/in/RedHat
+twitter: https://twitter.com/
+github: https://github.com
+linkedin: https://www.linkedin.com
